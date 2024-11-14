@@ -125,10 +125,28 @@ img{
     box-shadow: 2px 2px 3px #999;  
 }
 .nav-bar{
-    padding: 100px;
-    margin: 80px;
-    border: 3px solid;
+    /* padding: 10px 50px 10px 100px; */
+    margin: 2px 80px 80px 80px;
+    border: 2px solid;
+    border-radius: 20px;
+    border-color: #3c3636a8;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
+    border-width: 0.008cm;
+    background-color: rgb(117, 111, 111);
+}
+#img-div{
+    margin-bottom: 20px;
+}
+.landscape-office{
+    width: 500px;
+    height: 250px;
+}
+#customer-care-div{
+
+}
+.customer_care{
+    width: 350px;
+    height: 150px;
 }
