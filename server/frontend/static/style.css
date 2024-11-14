@@ -124,3 +124,11 @@ img{
     text-align:center;
     box-shadow: 2px 2px 3px #999;  
 }
+.nav-bar{
+    padding: 100px;
+    margin: 80px;
+    border: 3px solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
