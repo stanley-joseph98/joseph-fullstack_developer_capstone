@@ -58,18 +58,47 @@ app.get('/fetchReviews/dealer/:id', async (req, res) => {
 
 // Express route to fetch all dealerships
 app.get('/fetchDealers', async (req, res) => {
-//Write your code here
+    try {
+        const documents = await Dealerships.find();
+        res.json(documents);
+      } catch (error) {
+        res.status(500).json({ error: 'Error fetching documents' });
+      }
 });
 
 // Express route to fetch Dealers by a particular state
+// Express route to fetch Dealers by a particular state
 app.get('/fetchDealers/:state', async (req, res) => {
-//Write your code here
-});
+    try {
+      const state = req.params.state; // Get the state from the request params without converting to uppercase
+      console.log(`Fetching dealers for state: ${state}`); // Log the state being searched
+      const documents = await Dealerships.find({ state: state }); // Query using the exact state name
+      console.log(`Found documents: ${JSON.stringify(documents)}`); // Log the found documents
+  
+      if (documents.length === 0) {
+        return res.status(404).json({ error: 'No dealers found for this state' });
+      } //check if there are no states/counties with such dealers
+      res.json(documents);
+    } catch (error) {
+      console.error(error); // Log the error for debugging
+      res.status(500).json({ error: 'Error fetching documents' });
+    }
+  });
 
 // Express route to fetch dealer by a particular id
+// Express route to fetch dealer by a particular id
 app.get('/fetchDealer/:id', async (req, res) => {
-//Write your code here
-});
+    try {
+      const id = parseInt(req.params.id); // Convert the id to an integer
+      const document = await Dealerships.findOne({ id: id }); // Use findOne instead of findById
+      if (!document) {
+        return res.status(404).json({ error: 'Dealer not found' });
+      }
+      res.json(document);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching document' });
+    }
+  });
 
 //Express route to insert review
 app.post('/insert_review', express.raw({ type: '*/*' }), async (req, res) => {
