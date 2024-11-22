@@ -1,5 +1,6 @@
 import requests
 
+
 def get_sentiment(review_text):
     try:
         # URL of the Flask app deployed on IBM Code Engine
