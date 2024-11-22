@@ -1,0 +1,23 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "semi": ["error", "always"],                 // Enforce semicolons
+    "quotes": ["error", "single"],              // Enforce single quotes
+    "indent": ["error", 2],                     // Enforce 2-space indentation
+    "no-unused-vars": ["warn"],                 // Warn on unused variables
+    "no-console": "off",                        // Allow console statements
+    "eqeqeq": ["error", "always"],              // Enforce strict equality
+    "comma-dangle": ["error", "never"],         // Disallow trailing commas
+    "no-trailing-spaces": "error",              // Disallow trailing spaces
+    "space-before-function-paren": ["error", "never"], // No space before function parentheses
+    "eol-last": ["error", "always"]             // Ensure newline at end of file
+  }
+}
