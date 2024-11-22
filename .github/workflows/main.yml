@@ -1,47 +1,81 @@
 name: 'Lint Code'
+
 on:
   push:
     branches: [master, main]
   pull_request:
     branches: [master, main]
+
 jobs:
   lint_python:
     name: Lint Python Files
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.12
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install flake8
-    - name: Print working directory
-      run: pwd
-    - name: Run Linter
-      run: |
-        pwd
-        # This command finds all Python files recursively and runs flake8 on them
-        find . -name "*.py" -exec flake8 {} +
-        echo "Linted all the python files successfully"
-  lint_js:
-      name: Lint JavaScript Files
-      runs-on: ubuntu-latest
-      steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Install Node.js
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+      
+      - name: Run Python Linter
+        run: |
+          # Run flake8 on all Python files recursively
+          find . -name "*.py" -exec flake8 {} +
+          echo "Linted all the Python files successfully"
+
+  lint_js:
+    name: Lint JavaScript Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14
-      - name: Install JSHint
-        run: npm install jshint --global
-      - name: Run Linter
+          node-version: 18 # Using Node.js 18 to align with modern standards
+      
+      - name: Install ESLint
         run: |
-          # This command finds all JavaScript files recursively and runs JSHint on them
-          find ./server/database -name "*.js" -exec jshint {} +
-          echo "Linted all the js files successfully"
+          npm install eslint --global
+          npm install eslint-config-recommended --global
+      
+      - name: Create ESLint Config
+        run: |
+          # Ensure the `.eslintrc.json` is present in the repo
+          echo '{
+            "env": {
+              "es6": true,
+              "node": true
+            },
+            "extends": ["eslint:recommended"],
+            "parserOptions": {
+              "ecmaVersion": 2018,
+              "sourceType": "module"
+            },
+            "rules": {
+              "semi": ["error", "always"],
+              "quotes": ["error", "single"],
+              "indent": ["error", 2],
+              "no-unused-vars": ["warn"],
+              "no-console": "off",
+              "eqeqeq": ["error", "always"],
+              "comma-dangle": ["error", "never"],
+              "no-trailing-spaces": "error",
+              "space-before-function-paren": ["error", "never"],
+              "eol-last": ["error", "always"]
+            }
+          }' > .eslintrc.json
+      
+      - name: Run JavaScript Linter
+        run: |
+          # Run ESLint on all JavaScript files recursively
+          find . -name "*.js" -exec eslint {} +
+          echo "Linted all the JavaScript files successfully"
